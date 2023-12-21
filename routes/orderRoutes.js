@@ -13,16 +13,15 @@ const {
 	deleteOrder,
 } = require("../controllers/orderController");
 
-router.route("/").post(authenticateUser, createOrder);
+router.route("/").post(createOrder);
 
-router
-	.route("/ordersOfThisDay/:id")
-	.get(authenticateUser, authorizePermissions("admin"), getAllOrders);
+router.route("/ordersOfThisDay/:id").get(getAllOrders);
 
-router
-	.route("/:id")
-	.get(authenticateUser, getSingleOrder)
-	.patch(authenticateUser, updateOrder)
-	.delete([authenticateUser, authorizePermissions("admin")], deleteOrder);
+router.route("/:id").get(getSingleOrder).patch(updateOrder).delete(deleteOrder);
 
 module.exports = router;
+
+// authenticateUser, 16
+// authenticateUser, authorizePermissions("admin"), 20
+// authenticateUser, 24 25
+// [authenticateUser, authorizePermissions("admin")], 26

@@ -12,9 +12,15 @@ const {
 	deleteProduct,
 } = require("../controllers/productController");
 
-router.route("/").post(createProduct).get(getAllProducts);
+router
+	.route("/")
+	.post([authenticateUser, authorizePermissions("admin")], createProduct)
+	.get(getAllProducts);
 
-router.route("/:id").patch(updateProduct).delete(deleteProduct);
+router
+	.route("/:id")
+	.patch([authenticateUser, authorizePermissions("admin")], updateProduct)
+	.delete([authenticateUser, authorizePermissions("admin")], deleteProduct);
 
 module.exports = router;
 

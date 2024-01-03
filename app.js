@@ -28,8 +28,8 @@ const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
 const corsConfig = {
+	origin: "https://ordersysteem.onrender.com",
 	credentials: true,
-	origin: true,
 };
 
 app.set("trust proxy", 1);

@@ -13,11 +13,17 @@ const {
 	deleteOrder,
 } = require("../controllers/orderController");
 
-router.route("/").post(createOrder);
+router.route("/").post(authenticateUser, createOrder);
 
-router.route("/ordersOfThisDay/:id").get(getAllOrders);
+router
+	.route("/ordersOfThisDay/:id")
+	.get(authenticateUser, authorizePermissions("admin"), getAllOrders);
 
-router.route("/:id").get(getSingleOrder).patch(updateOrder).delete(deleteOrder);
+router
+	.route("/:id")
+	.get(authenticateUser, getSingleOrder)
+	.patch(authenticateUser, updateOrder)
+	.delete([authenticateUser, authorizePermissions("admin")], deleteOrder);
 
 module.exports = router;
 

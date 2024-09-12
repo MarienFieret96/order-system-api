@@ -1,11 +1,23 @@
 const mongoose = require("mongoose");
 
-const GewichtSchema = mongoose.Schema({
-	hoeveelheid: { type: Number },
-	delen: { type: Number },
+const PrijsSchema = mongoose.Schema({
+	gemiddeldGewicht: {
+		type: Number,
+	},
+	perStuk: {
+		type: Boolean,
+	},
+	prijs: {
+		type: Number,
+	},
 });
 
 const SingleOrderItemSchema = mongoose.Schema({
+	product: {
+		type: mongoose.Schema.ObjectId,
+		ref: "Product",
+		required: true,
+	},
 	id: {
 		type: String,
 		required: true,
@@ -14,32 +26,23 @@ const SingleOrderItemSchema = mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	prijs: {
+	totaalPrijs: {
 		type: Number,
 		required: true,
 	},
-
-	gewicht: GewichtSchema,
-	stuks: { type: Number, required: true },
-	keuzes: { type: Array, required: false },
-	opmerkingen: {
+	gewicht: {
+		type: String,
+	},
+	delen: {
+		type: String,
+	},
+	aantal: { type: Number, required: true },
+	opties: { type: Array, required: false },
+	productOpmerking: {
 		type: String,
 		required: false,
 	},
-	stukPrijs: {
-		type: String,
-		enum: ["stuk", "gewicht"],
-		required: true,
-	},
-	product: {
-		type: mongoose.Schema.ObjectId,
-		ref: "Product",
-		required: true,
-	},
-	itemIndex: {
-		type: Number,
-		required: true,
-	},
+	prijs: PrijsSchema,
 	ingepakt: {
 		type: Boolean,
 		default: false,
@@ -73,7 +76,12 @@ const OrderSchema = mongoose.Schema(
 		orderItems: [SingleOrderItemSchema],
 		status: {
 			type: String,
-			enum: ["aangenomen", "inpakken", "ingepakt", "opgehaald"],
+			enum: [
+				"aangenomen",
+				"inpakken",
+				"ingepakt",
+				"opgehaald",
+			],
 			default: "aangenomen",
 		},
 		betaalStatus: {

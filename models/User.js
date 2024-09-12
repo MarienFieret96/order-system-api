@@ -18,6 +18,12 @@ const UserSchema = new mongoose.Schema({
 			message: "Please provide valid email",
 		},
 	},
+	telephone: {
+		type: String,
+		required: [true, "Please provide telephone"],
+		minlength: 10,
+		maxlength: 10,
+	},
 	password: {
 		type: String,
 		required: [true, "Please provide password"],
@@ -36,8 +42,13 @@ UserSchema.pre("save", async function () {
 	this.password = await bcrypt.hash(this.password, salt);
 });
 
-UserSchema.methods.comparePassword = async function (canditatePassword) {
-	const isMatch = await bcrypt.compare(canditatePassword, this.password);
+UserSchema.methods.comparePassword = async function (
+	canditatePassword,
+) {
+	const isMatch = await bcrypt.compare(
+		canditatePassword,
+		this.password,
+	);
 	return isMatch;
 };
 

@@ -24,6 +24,7 @@ const productRouter = require("./routes/productRoutes");
 const orderRouter = require("./routes/orderRoutes");
 const inpakRouter = require("./routes/inpakRoutes");
 const instructieRouter = require("./routes/instructieRoutes");
+const inkoopRouter = require("./routes/inkoopRoutes");
 
 // middleware
 const notFoundMiddleware = require("./middleware/not-found");
@@ -59,6 +60,7 @@ app.use("/api/v1/products", productRouter);
 app.use("/api/v1/orders", orderRouter);
 app.use("/api/v1/inpakken", inpakRouter);
 app.use("/api/v1/instructies", instructieRouter);
+app.use("/api/v1/inkoop", inkoopRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
